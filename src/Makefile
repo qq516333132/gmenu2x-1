@@ -1,13 +1,14 @@
 CHAINPREFIX=/opt/mipsel-linux-uclibc/usr
-CROSS_COMPILE=$(CHAINPREFIX)/bin/mipsel-linux-
+#CROSS_COMPILE=$(CHAINPREFIX)/bin/mipsel-linux-
+CROSS_COMPILE=
 
 CC= $(CROSS_COMPILE)gcc
 CXX = $(CROSS_COMPILE)g++
 STRIP = $(CROSS_COMPILE)strip
 
-CFLAGS = -I. -I"$(CHAINPREFIX)/include" `$(CHAINPREFIX)/bin/sdl-config --cflags` -DTARGET_GP2X -DTIXML_USE_STL -O3 -msoft-float -fomit-frame-pointer -ffast-math -funroll-loops -Wall -Wno-unknown-pragmas -Wno-format
+CFLAGS = -I. -I"$(CHAINPREFIX)/include" `sdl-config --cflags` -DTARGET_GP2X -DTIXML_USE_STL -O3 -fomit-frame-pointer -ffast-math -funroll-loops -Wall -Wno-unknown-pragmas -Wno-format
 CXXFLAGS = $(CFLAGS)
-LDFLAGS = -L$(CHAINPREFIX)/lib `$(CHAINPREFIX)/bin/sdl-config --libs` -lfreetype -lSDL_image -lSDL_ttf -lSDL_gfx -ljpeg -lpng12 -lSDL -lz -ldl # -lpnd
+LDFLAGS = -L$(CHAINPREFIX)/lib `sdl-config --libs` -lfreetype -lSDL_image -lSDL_ttf -lSDL_gfx -ljpeg -lpng12 -lSDL -lz -ldl # -lpnd
 
 TARGET = ../build/gmenu2x
 OBJDIR = ../objs/gp2x
@@ -35,7 +36,8 @@ static: $(TARGET)
 
 $(TARGET): $(OBJS) $(TXML_OBJS) 
 	@echo "Linking $(TARGET)..."
-	$(CXX) -o $(TARGET) $(LDFLAGS) $(OBJS) $(TXML_OBJS)
+#	$(CXX) -o $(TARGET) $(LDFLAGS) $(OBJS) $(TXML_OBJS)
+	$(CXX) -o $(TARGET) $(LDFLAGS) $(OBJS) $(TXML_OBJS) $(LDFLAGS)
 	$(STRIP) $(TARGET)
 
 shared: $(OBJS) $(TXML_OBJS) 
